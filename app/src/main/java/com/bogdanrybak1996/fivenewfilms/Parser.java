@@ -16,6 +16,7 @@ import java.util.regex.*;
 public class Parser {
     private ArrayList<Film> films = new ArrayList<Film>();
     private String htmlCode;
+
     public Parser(){
         RequestTask htm = new RequestTask();
         htm.execute("http://www.kinofilms.ua/ukr/afisha/city/17/");
@@ -26,7 +27,10 @@ public class Parser {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        ArrayList<String> bloks = parseBlock(htmlCode);
     }
+
+    // Метод виділяє з усього html коду лише ті частини, які відносяться до опису фільмів
     private ArrayList<String> parseBlock(String htmlCode){
         ArrayList<String> bloks = new ArrayList<String>();
         Matcher m = Pattern.compile("<div class=\"cblock\" id=\"[a-z0-9]*\" data-offset=\"[0-9]*\">\\s*"+
@@ -54,6 +58,35 @@ public class Parser {
         }
         return bloks;
     }
+    //Метод виділяє із блоків, знайдених раніше, інформацію про фільм
+    private ArrayList<Film> parseFilms(ArrayList<String> bloks){
+        ArrayList<Film> films = new ArrayList<>();
+        Matcher matcher;
+        for(int i=0;i<bloks.size();i++){
+            //назва фільму
+            matcher = Pattern.compile("<a href=\".*?\"><img src=\"/*?\" alt=\"(.*?)\"></a>").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setName(matcher.group(1));
+
+            //Рік прем’єри
+            matcher = Pattern.compile("<a href=\".*?\" data-id=\".*?\">.*?</a> (\\(.*?\\))").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setYear(matcher.group(1));
+
+            //Жанри фільму
+            matcher=Pattern.compile("&ndash; (.*?) &ndash;.*?</div>").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setGenre(matcher.group(1));
+
+            //Країна виробництва
+            matcher=Pattern.compile("&ndash; .*? &ndash;(.*?)</div>").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setCountry(matcher.group(1));
+            
+        }
+        return films;
+    }
+
     class RequestTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... url) {
