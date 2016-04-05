@@ -12,6 +12,8 @@ public class Film {
     private String year;
     private String genre;
     private String country;
+    private String link;
+    private String linkPicture;
     private ArrayList<String> directors = new ArrayList<String>();
     ArrayList<String> actors = new ArrayList<String>();
     public void setName(String name){
@@ -32,6 +34,12 @@ public class Film {
     public void setActors(ArrayList<String> actors){
         this.actors = actors;
     }
+    public void setLink(String link){
+        this.link = link;
+    }
+    public  void setLinkPicture(String linkPicture){
+        this.linkPicture = linkPicture;
+    }
     public String getName(){
         return name;
     }
@@ -43,6 +51,12 @@ public class Film {
     }
     public String getCountry(){
         return country;
+    }
+    public String getLink(){
+        return link;
+    }
+    public String getLinkPicture(){
+        return linkPicture;
     }
     public String getDirectors(){
         String directors = "";

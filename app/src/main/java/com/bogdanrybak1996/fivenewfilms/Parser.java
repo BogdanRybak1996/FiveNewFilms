@@ -27,7 +27,33 @@ public class Parser {
             e.printStackTrace();
         }
     }
-
+    private ArrayList<String> parseBlock(String htmlCode){
+        ArrayList<String> bloks = new ArrayList<String>();
+        Matcher m = Pattern.compile("<div class=\"cblock\" id=\"[a-z0-9]*\" data-offset=\"[0-9]*\">\\s*"+
+                "<div class=\"row\">\\s*"+
+                "<div class=\"span1 spanimg\" >\\s*"+
+                "<a href=\".*?\"><img src=\".*?\" alt=\".*?\"></a>\\s*<a class=\".*?\" href=\".*?\"></a>\\s*"+
+                "</div>\\s*"+
+                "<div class=\"span6\">\\s*"+
+                "<div class=\"h3\">\\s*"+
+                "<a href=\".*?\" data-id=\".*?\">.*?</a>.*?\\s*"+
+                "<br>.*?</div>\\s*"+
+                "<div class=\"muted hide_short\"><tt><i class=\"icon-time\"></i>.*?</tt>\\s*"+
+                "&ndash;.*?&ndash;.*?</div>\\s*"+
+                "<p class=\"hide_short\">\\s*"+
+                "<b>Режисери:</b>.*?<b>Актори:</b>.*?</p>\\s*"+
+                "<div>\\s*"+
+                "<a.*?</a>\\s*"+
+                "<a.*?</a>\\s*"+
+                "</div>\\s*"+
+                "</div>\\s*"+
+                "</div>\\s*").matcher(htmlCode);
+        for(int i=0;i<5;i++){
+            m.find();
+            bloks.add(m.group());
+        }
+        return bloks;
+    }
     class RequestTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... url) {
