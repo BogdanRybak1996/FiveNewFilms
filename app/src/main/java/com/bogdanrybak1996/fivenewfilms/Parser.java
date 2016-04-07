@@ -28,6 +28,11 @@ public class Parser {
             e.printStackTrace();
         }
         ArrayList<String> bloks = parseBlock(htmlCode);
+        films = parseFilms(bloks);
+    }
+
+    public ArrayList<Film> getFilms(){
+        return films;
     }
 
     // Метод виділяє з усього html коду лише ті частини, які відносяться до опису фільмів
