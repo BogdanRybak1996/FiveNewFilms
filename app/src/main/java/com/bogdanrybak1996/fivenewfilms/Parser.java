@@ -59,10 +59,10 @@ public class Parser {
         return bloks;
     }
     //Метод виділяє із блоків, знайдених раніше, інформацію про фільм
-    private ArrayList<Film> parseFilms(ArrayList<String> bloks){
+    private ArrayList<Film> parseFilms(ArrayList<String> bloks) {
         ArrayList<Film> films = new ArrayList<>();
         Matcher matcher;
-        for(int i=0;i<bloks.size();i++){
+        for (int i = 0; i < bloks.size(); i++) {
             //назва фільму
             matcher = Pattern.compile("<a href=\".*?\"><img src=\"/*?\" alt=\"(.*?)\"></a>").matcher(bloks.get(i));
             matcher.find();
@@ -74,19 +74,55 @@ public class Parser {
             films.get(i).setYear(matcher.group(1));
 
             //Жанри фільму
-            matcher=Pattern.compile("&ndash; (.*?) &ndash;.*?</div>").matcher(bloks.get(i));
+            matcher = Pattern.compile("&ndash; (.*?) &ndash;.*?</div>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setGenre(matcher.group(1));
 
             //Країна виробництва
-            matcher=Pattern.compile("&ndash; .*? &ndash;(.*?)</div>").matcher(bloks.get(i));
+            matcher = Pattern.compile("&ndash; .*? &ndash;(.*?)</div>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setCountry(matcher.group(1));
-            
+
+            //Посилання
+            matcher = Pattern.compile("<a href=\"(.*?)\"><img src=\".*?\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setLink("http://www.kinofilms.ua" + matcher.group(1));
+
+            //Посилання на зображення
+            matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
+            matcher.find();
+            films.get(i).setLink("http://www.kinofilms.ua" + matcher.group(1));
+
+            // Опис фільму (переходимо за посиланням та беремо опис звідти)
+            String filmHTML = films.get(i).getLink();
+            RequestTask filmHTMRequest = new RequestTask();
+            filmHTMRequest.execute(filmHTML);
+            matcher=Pattern.compile("<div itemprop=\"description\"><p>(.*?)</p><p></p></div>").matcher(filmHTML);
+
+            // Режисери
+            matcher = Pattern.compile("<b>Режисери:</b>.*?<b>Актори:</b>").matcher(bloks.get(i));
+            matcher.find();
+            String directorStr = matcher.group();
+            matcher = Pattern.compile("<a href=\".*?\" rel=\"nofollow\">(.*?)</a>").matcher(directorStr);
+            ArrayList<String> directors = new ArrayList<String>();
+            while (matcher.find()){
+                directors.add(matcher.group(1));
+            }
+            films.get(i).setDirectors(directors);
+
+            // Актори
+            matcher = Pattern.compile("<b>Актори:</b>.*?</p>").matcher(bloks.get(i));
+            matcher.find();
+            String actorsStr = matcher.group();
+            matcher = Pattern.compile("<a href=\".*?\" rel=\"nofollow\">(.*?)</a>").matcher(actorsStr);
+            ArrayList<String> actors = new ArrayList<String>();
+            while (matcher.find()){
+                actors.add(matcher.group(1));
+            }
+            films.get(i).setActors(actors);
         }
         return films;
     }
-
     class RequestTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... url) {

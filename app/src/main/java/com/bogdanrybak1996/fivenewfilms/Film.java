@@ -16,7 +16,7 @@ public class Film {
     private String linkPicture;
     private String description;
     private ArrayList<String> directors = new ArrayList<String>();
-    ArrayList<String> actors = new ArrayList<String>();
+    private ArrayList<String> actors = new ArrayList<String>();
     public void setName(String name){
         this.name = name;
     }
