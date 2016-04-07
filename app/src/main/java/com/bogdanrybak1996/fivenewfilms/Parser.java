@@ -17,7 +17,7 @@ public class Parser {
     private ArrayList<Film> films = new ArrayList<Film>();
     private String htmlCode;
 
-    public Parser(){
+    public Parser() {
         RequestTask htm = new RequestTask();
         htm.execute("http://www.kinofilms.ua/ukr/afisha/city/17/");
         try {
@@ -68,13 +68,14 @@ public class Parser {
         ArrayList<Film> films = new ArrayList<>();
         Matcher matcher;
         for (int i = 0; i < bloks.size(); i++) {
+            films.add(new Film());
             //назва фільму
-            matcher = Pattern.compile("<a href=\".*?\"><img src=\"/*?\" alt=\"(.*?)\"></a>").matcher(bloks.get(i));
+            matcher = Pattern.compile("<a href=\".*?\"><img src=\".*?\" alt=\"(.*?)\"></a>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setName(matcher.group(1));
 
             //Рік прем’єри
-            matcher = Pattern.compile("<a href=\".*?\" data-id=\".*?\">.*?</a> (\\(.*?\\))").matcher(bloks.get(i));
+            matcher = Pattern.compile("<a href=\".*?\" data-id=\".*?\">.*?</a> \\((.*?)\\)").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setYear(matcher.group(1));
 
@@ -96,13 +97,23 @@ public class Parser {
             //Посилання на зображення
             matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
             matcher.find();
-            films.get(i).setLink("http://www.kinofilms.ua" + matcher.group(1));
+            films.get(i).setLinkPicture("http://www.kinofilms.ua" + matcher.group(1));
 
             // Опис фільму (переходимо за посиланням та беремо опис звідти)
-            String filmHTML = films.get(i).getLink();
+            String filmLink = films.get(i).getLink();
             RequestTask filmHTMRequest = new RequestTask();
-            filmHTMRequest.execute(filmHTML);
+            filmHTMRequest.execute(filmLink);
+            String filmHTML = null;
+            try {
+                filmHTML = filmHTMRequest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
             matcher=Pattern.compile("<div itemprop=\"description\"><p>(.*?)</p><p></p></div>").matcher(filmHTML);
+            matcher.find();
+            films.get(i).setDescription(matcher.group(1));
 
             // Режисери
             matcher = Pattern.compile("<b>Режисери:</b>.*?<b>Актори:</b>").matcher(bloks.get(i));
