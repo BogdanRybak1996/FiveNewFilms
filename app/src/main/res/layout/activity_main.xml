@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="5 прем’єр на сьогодні"
+        android:id="@+id/text_handle"
+        android:text="Перевірте з’єднання з інтернетом і перезапустіть програму"
         android:textStyle="italic"
         android:gravity="center_horizontal"
         android:textSize="24sp"
@@ -36,7 +37,6 @@
                     android:layout_width="130dp"
                     android:layout_height="180dp"
                     android:layout_margin="8dp"
-                    android:src="@drawable/index"
                     />
                 <LinearLayout
                     android:id="@+id/first_film_des_layout"
@@ -52,7 +52,7 @@
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text="Name"
+                        android:text=""
                         android:layout_margin="4dp"
                         />
                     <TextView
@@ -60,31 +60,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Genre"
                         />
                     <TextView
                         android:id="@+id/first_film_text_view_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Country"/>
+                        android:text=""/>
                     <TextView
                         android:id="@+id/first_film_text_view_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Year"/>
+                        android:text=""/>
                     <TextView
                         android:id="@+id/first_film_text_view_directors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Directors"/>
+                        android:text=""/>
                 </LinearLayout>
                 <Button
                     android:id="@+id/first_film_button_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:text="Деталі"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
@@ -106,7 +106,6 @@
                     android:layout_height="180dp"
                     android:layout_margin="8dp"
                     android:elevation="4dp"
-                    android:src="@drawable/index"
                     />
                 <LinearLayout
                     android:id="@+id/second_film_des_layout"
@@ -122,7 +121,6 @@
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text="Name"
                         android:layout_margin="4dp"
                         />
                     <TextView
@@ -130,32 +128,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Genre"
                         />
                     <TextView
                         android:id="@+id/second_film_text_view_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Country"/>
+                        />
                     <TextView
                         android:id="@+id/second_film_text_view_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Year"/>
+                        />
                     <TextView
                         android:id="@+id/second_film_text_view_directors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Directors"/>
+                        />
                 </LinearLayout>
                 <Button
                     android:id="@+id/second_film_button_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Деталі"
+                    android:visibility="gone"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_below="@id/second_film_des_layout"
@@ -176,7 +174,6 @@
                     android:layout_height="180dp"
                     android:layout_margin="8dp"
                     android:elevation="4dp"
-                    android:src="@drawable/index"
                     />
                 <LinearLayout
                     android:id="@+id/third_film_des_layout"
@@ -192,7 +189,6 @@
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text="Name"
                         android:layout_margin="4dp"
                         />
                     <TextView
@@ -200,29 +196,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Genre"
                         />
                     <TextView
                         android:id="@+id/third_film_text_view_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Country"/>
+                        />
                     <TextView
                         android:id="@+id/third_film_text_view_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Year"/>
+                        />
                     <TextView
                         android:id="@+id/third_film_text_view_directors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Directors"/>
+                        />
                 </LinearLayout>
                 <Button
                     android:id="@+id/third_film_button_description"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Деталі"
@@ -246,7 +242,6 @@
                     android:layout_height="180dp"
                     android:layout_margin="8dp"
                     android:elevation="4dp"
-                    android:src="@drawable/index"
                     />
                 <LinearLayout
                     android:id="@+id/fourth_film_des_layout"
@@ -262,7 +257,6 @@
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text="Name"
                         android:layout_margin="4dp"
                         />
                     <TextView
@@ -270,32 +264,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Genre"
                         />
                     <TextView
                         android:id="@+id/fourth_film_text_view_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Country"/>
+                        />
                     <TextView
                         android:id="@+id/fourth_film_text_view_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Year"/>
+                        />
                     <TextView
                         android:id="@+id/fourth_film_text_view_directors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Directors"/>
+                        />
                 </LinearLayout>
                 <Button
                     android:id="@+id/fourth_film_button_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Деталі"
+                    android:visibility="gone"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_below="@id/fourth_film_des_layout"
@@ -316,7 +310,6 @@
                     android:layout_height="180dp"
                     android:layout_margin="8dp"
                     android:elevation="4dp"
-                    android:src="@drawable/index"
                     />
                 <LinearLayout
                     android:id="@+id/fifth_film_des_layout"
@@ -332,7 +325,6 @@
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
                         android:textSize="18sp"
-                        android:text="Name"
                         android:layout_margin="4dp"
                         />
                     <TextView
@@ -340,32 +332,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Genre"
                         />
                     <TextView
                         android:id="@+id/fifth_film_text_view_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:text="Country"/>
+                        android:layout_margin="4dp" />
                     <TextView
                         android:id="@+id/fifth_film_text_view_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Year"/>
+                        />
                     <TextView
                         android:id="@+id/fifth_film_text_view_directors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="Directors"/>
+                        />
                 </LinearLayout>
                 <Button
                     android:id="@+id/fifth_film_button_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Деталі"
+                    android:visibility="gone"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:layout_below="@id/fifth_film_des_layout"

@@ -1,6 +1,8 @@
 package com.bogdanrybak1996.fivenewfilms;
 
+import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,8 +29,8 @@ public class Parser {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        ArrayList<String> bloks = parseBlock(htmlCode);
-        films = parseFilms(bloks);
+            ArrayList<String> bloks = parseBlock(htmlCode);
+            films = parseFilms(bloks);
     }
 
     public ArrayList<Film> getFilms(){
