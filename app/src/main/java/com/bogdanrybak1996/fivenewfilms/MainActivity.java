@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Parser parser = new Parser();
         ArrayList<Film> films = parser.getFilms();
-        TextView tw = (TextView) findViewById(R.id.testTextView);
-        tw.setText(films.get(1).getDescription());
+
     }
 }
