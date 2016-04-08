@@ -12,12 +12,8 @@
         android:textStyle="italic"
         android:gravity="center_horizontal"
         android:textSize="24sp"
-        />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
+        android:outlineProvider="paddedBounds"
+        android:elevation="8dp"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@drawable/shape"
+                android:outlineProvider="bounds"
+                android:elevation="4dp"
                 >
                 <ImageView
                     android:id="@+id/first_film_image_view_poster"
@@ -98,7 +95,6 @@
                 android:layout_margin="8dp"
                 android:outlineProvider="bounds"
                 android:elevation="4dp"
-                android:background="@drawable/shape"
                 >
                 <ImageView
                     android:id="@+id/second_film_image_view_poster"
@@ -168,7 +164,6 @@
                 android:layout_margin="8dp"
                 android:outlineProvider="bounds"
                 android:elevation="4dp"
-                android:background="@drawable/shape"
                 >
                 <ImageView
                     android:id="@+id/third_film_image_view_poster"
@@ -238,7 +233,6 @@
                 android:layout_margin="8dp"
                 android:outlineProvider="bounds"
                 android:elevation="4dp"
-                android:background="@drawable/shape"
                 >
                 <ImageView
                     android:id="@+id/fourth_film_image_view_poster"
@@ -308,7 +302,6 @@
                 android:layout_margin="8dp"
                 android:outlineProvider="bounds"
                 android:elevation="4dp"
-                android:background="@drawable/shape"
                 >
                 <ImageView
                     android:id="@+id/fifth_film_image_view_poster"

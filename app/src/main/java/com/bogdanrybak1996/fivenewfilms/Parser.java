@@ -85,7 +85,7 @@ public class Parser {
             films.get(i).setGenre(matcher.group(1));
 
             //Країна виробництва
-            matcher = Pattern.compile("&ndash; .*? &ndash;(.*?)</div>").matcher(bloks.get(i));
+            matcher = Pattern.compile("&ndash; .*? &ndash; (.*?)</div>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setCountry(matcher.group(1));
 
