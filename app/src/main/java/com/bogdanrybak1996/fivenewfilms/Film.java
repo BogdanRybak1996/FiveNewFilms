@@ -1,5 +1,8 @@
 package com.bogdanrybak1996.fivenewfilms;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +10,7 @@ import java.util.ArrayList;
  * Клас містить інформацію про конкретний фільм.
  * Методи доступу дозволяють зберігати тут інформацію та отримувати її
  */
-public class Film {
+public class Film implements Parcelable {
     private String name;
     private String year;
     private String genre;
@@ -17,6 +20,36 @@ public class Film {
     private String description;
     private ArrayList<String> directors = new ArrayList<String>();
     private ArrayList<String> actors = new ArrayList<String>();
+    private ArrayList<Sessions> sessions = new ArrayList<Sessions>();
+
+    public Film(){
+
+    }
+
+    protected Film(Parcel in) {                     // Для передачі об’єкту в інший activity через Intents
+        name = in.readString();
+        year = in.readString();
+        genre = in.readString();
+        country = in.readString();
+        link = in.readString();
+        linkPicture = in.readString();
+        description = in.readString();
+        directors = in.createStringArrayList();
+        actors = in.createStringArrayList();
+    }
+
+    public static final Creator<Film> CREATOR = new Creator<Film>() {
+        @Override
+        public Film createFromParcel(Parcel in) {
+            return new Film(in);
+        }
+
+        @Override
+        public Film[] newArray(int size) {
+            return new Film[size];
+        }
+    };
+
     public void setName(String name){
         this.name = name;
     }
@@ -43,6 +76,9 @@ public class Film {
     }
     public void setDescription(String description){
         this.description = description;
+    }
+    public void setSessions(ArrayList<Sessions> sessions){
+        this.sessions = sessions;
     }
     public String getName(){
         return name;
@@ -84,5 +120,30 @@ public class Film {
             }
         }
         return actors;
+    }
+    public String getSessions(){
+        String result = "";
+        for(int i=0;i<sessions.size();i++){
+            result+=sessions.get(i).getInfo();
+        }
+        return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {                 // Для передачі об’єкту в інший activity через Intents
+        dest.writeString(name);
+        dest.writeString(year);
+        dest.writeString(genre);
+        dest.writeString(country);
+        dest.writeString(link);
+        dest.writeString(linkPicture);
+        dest.writeString(description);
+        dest.writeStringList(directors);
+        dest.writeStringList(actors);
     }
 }

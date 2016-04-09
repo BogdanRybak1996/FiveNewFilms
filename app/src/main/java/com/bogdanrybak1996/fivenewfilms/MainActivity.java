@@ -1,9 +1,12 @@
 package com.bogdanrybak1996.fivenewfilms;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.io.InputStream;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
+    ArrayList<Film> films = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Parser parser = null;
-        ArrayList<Film> films = null;
         try {
             parser = new Parser();
             if(films==null) {                                       // Для того, щоб при зміні положення екрану не загружати дані заново
@@ -38,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e){
 
         }
+        //Додаємо обробники подій до кнопок
+        Button buttonFirstFilmInfo = (Button) findViewById(R.id.first_film_button_description);
+        Button buttonSecondFilmInfo = (Button) findViewById(R.id.second_film_button_description);
+        Button buttonThirdFilmInfo = (Button) findViewById(R.id.third_film_button_description);
+        Button buttonFourthFilmInfo = (Button) findViewById(R.id.fourth_film_button_description);
+        Button buttonFifthFilmInfo = (Button) findViewById(R.id.fifth_film_button_description);
+        setOnClickIvent(buttonFirstFilmInfo,0);
+        setOnClickIvent(buttonSecondFilmInfo,1);
+        setOnClickIvent(buttonThirdFilmInfo,2);
+        setOnClickIvent(buttonFourthFilmInfo,3);
+        setOnClickIvent(buttonFifthFilmInfo,4);
     }
 
     /**
@@ -140,7 +154,17 @@ public class MainActivity extends AppCompatActivity {
         Button btn4 = (Button) findViewById(R.id.fourth_film_button_description);
         btn4.setVisibility(View.VISIBLE);
         Button btn5 = (Button) findViewById(R.id.fifth_film_button_description);
-        btn2.setVisibility(View.VISIBLE);
+        btn5.setVisibility(View.VISIBLE);
 
+    }
+    private void setOnClickIvent(Button btn, final int index){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),FilmActivity.class);
+                intent.putExtra("film",films.get(index));
+                startActivity(intent);
+            }
+        });
     }
 }

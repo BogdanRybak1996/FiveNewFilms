@@ -59,6 +59,7 @@ public class Parser {
                 "</div>\\s*"+
                 "</div>\\s*"+
                 "</div>\\s*").matcher(htmlCode);
+
         for(int i=0;i<5;i++){
             m.find();
             bloks.add(m.group());
@@ -115,7 +116,18 @@ public class Parser {
             }
             matcher=Pattern.compile("<div itemprop=\"description\"><p>(.*?)</p><p></p></div>").matcher(filmHTML);
             matcher.find();
-            films.get(i).setDescription(matcher.group(1));
+            String Description = matcher.group(1);
+
+            //замінюємо спеціальні символи в описі
+            Description = Description.replaceAll("&nbsp;"," ");
+            Description = Description.replaceAll("&hellip;","...");
+            Description = Description.replaceAll("&prime;","\'");
+            Description = Description.replaceAll("&ndash;","-");
+            Description = Description.replaceAll("&mdash;","-");
+            Description = Description.replaceAll("&ldquo;","\"");
+            Description = Description.replaceAll("&rdquo;","\"");
+            Description = Description.replaceAll("&#39;","\'");
+            films.get(i).setDescription(Description);
 
             // Режисери
             matcher = Pattern.compile("<b>Режисери:</b>.*?<b>Актори:</b>").matcher(bloks.get(i));
