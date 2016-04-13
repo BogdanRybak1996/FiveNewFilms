@@ -20,8 +20,9 @@ public class Film implements Parcelable {
     private String description;
     private ArrayList<String> directors = new ArrayList<String>();
     private ArrayList<String> actors = new ArrayList<String>();
-    private ArrayList<Sessions> sessions = new ArrayList<Sessions>();
-
+    private String premierUkraine;
+    private String premierWorld;
+    private String rating;
     public Film(){
 
     }
@@ -36,6 +37,9 @@ public class Film implements Parcelable {
         description = in.readString();
         directors = in.createStringArrayList();
         actors = in.createStringArrayList();
+        premierUkraine = in.readString();
+        premierWorld = in.readString();
+        rating = in.readString();
     }
 
     public static final Creator<Film> CREATOR = new Creator<Film>() {
@@ -71,14 +75,20 @@ public class Film implements Parcelable {
     public void setLink(String link){
         this.link = link;
     }
+    public void setPremierUkraine(String premierUkraine){
+        this.premierUkraine = premierUkraine;
+    }
+    public void setPremierWorld(String premierWorld){
+        this.premierWorld = premierWorld;
+    }
     public  void setLinkPicture(String linkPicture){
         this.linkPicture = linkPicture;
     }
     public void setDescription(String description){
         this.description = description;
     }
-    public void setSessions(ArrayList<Sessions> sessions){
-        this.sessions = sessions;
+    public void setRating(String rating){
+        this.rating = rating;
     }
     public String getName(){
         return name;
@@ -95,11 +105,20 @@ public class Film implements Parcelable {
     public String getLink(){
         return link;
     }
+    public String getPremierUkraine(){
+        return premierUkraine;
+    }
+    public  String getPremierWorld(){
+        return premierWorld;
+    }
     public String getLinkPicture(){
         return linkPicture;
     }
     public String getDescription(){
         return description;
+    }
+    public String getRating(){
+        return rating;
     }
     public String getDirectors(){
         String directors = "";
@@ -121,13 +140,6 @@ public class Film implements Parcelable {
         }
         return actors;
     }
-    public String getSessions(){
-        String result = "";
-        for(int i=0;i<sessions.size();i++){
-            result+=sessions.get(i).getInfo();
-        }
-        return result;
-    }
 
     @Override
     public int describeContents() {
@@ -145,5 +157,8 @@ public class Film implements Parcelable {
         dest.writeString(description);
         dest.writeStringList(directors);
         dest.writeStringList(actors);
+        dest.writeString(premierUkraine);
+        dest.writeString(premierWorld);
+        dest.writeString(rating);
     }
 }

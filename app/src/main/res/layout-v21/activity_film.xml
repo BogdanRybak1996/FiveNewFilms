@@ -1,0 +1,178 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.bogdanrybak1996.fivenewfilms.FilmActivity">
+<TextView
+    android:id="@+id/film_activity_text_view_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:gravity="center_horizontal"
+    android:text=""
+    android:outlineProvider="paddedBounds"
+    android:elevation="8dp"
+    android:textSize="20sp"
+    android:textStyle="bold" />
+<ScrollView
+    android:id="@+id/film_activity_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp">
+
+        <RelativeLayout
+            android:id="@+id/first_information_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/film_activity_image_view_poster"
+                android:layout_width="174dp"
+                android:layout_height="240dp" />
+
+            <LinearLayout
+                android:id="@+id/film_activity_des_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/film_activity_image_view_poster"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/film_activity_text_view_genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text=""
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/fim_activity_text_view_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text=""
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/film_activity_text_view_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text=""
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/film_activity_text_view_directors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text=""
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/film_activity_text_view_actors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/description_lable_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_horizontal"
+                android:text="Опис:"
+                android:textSize="26sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginBottom="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Прем’єри:"
+                android:layout_marginBottom="4dp"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/premier_world"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/premier_ukraine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:text=""
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/rating_lable_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_horizontal"
+                android:text="Рейтинг:"
+                android:textSize="26sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/rating_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center_horizontal"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+<TextView
+    android:id="@+id/film_activity_link"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_alignParentBottom="true"
+    android:text="Переглянути на сайті (kinofilms.ua)"
+    android:textSize="16sp"
+    android:textColor="@android:color/holo_blue_light"
+    android:textStyle="italic" />
+</LinearLayout>

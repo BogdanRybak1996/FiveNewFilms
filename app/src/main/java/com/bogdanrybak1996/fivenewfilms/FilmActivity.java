@@ -54,8 +54,25 @@ public class FilmActivity extends AppCompatActivity {
         TextView textViewDescription = (TextView) findViewById(R.id.description_text_view);
         textViewDescription.setText(film.getDescription());
 
+        //Прем’єра в світі
+        TextView textViewWorldPremier = (TextView) findViewById(R.id.premier_world);
+        if(film.getPremierWorld()!=null) {
+            textViewWorldPremier.setText("Світ: " + film.getPremierWorld());
+        }
+
+        //Прем’єра в Україні
+        TextView textViewUkrainePremier = (TextView) findViewById(R.id.premier_ukraine);
+        if(film.getPremierUkraine()!=null) {
+            textViewUkrainePremier.setText("Україна: " + film.getPremierUkraine());
+        }
+
+        //Рейтинг
+        TextView ratingTextView = (TextView) findViewById(R.id.rating_text_view);
+        ratingTextView.setText(film.getRating());
+
+
         //Перехід за посиланням
-        TextView linkTextView = (TextView) findViewById(R.id.film_activity_link_id);
+        TextView linkTextView = (TextView) findViewById(R.id.film_activity_link);
         linkTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

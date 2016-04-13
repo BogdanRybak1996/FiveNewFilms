@@ -29,43 +29,44 @@ public class Parser {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-            ArrayList<String> bloks = parseBlock(htmlCode);
-            films = parseFilms(bloks);
+        ArrayList<String> bloks = parseBlock(htmlCode);
+        films = parseFilms(bloks);
     }
 
-    public ArrayList<Film> getFilms(){
+    public ArrayList<Film> getFilms() {
         return films;
     }
 
     // Метод виділяє з усього html коду лише ті частини, які відносяться до опису фільмів
-    private ArrayList<String> parseBlock(String htmlCode){
+    private ArrayList<String> parseBlock(String htmlCode) {
         ArrayList<String> bloks = new ArrayList<String>();
-        Matcher m = Pattern.compile("<div class=\"cblock\" id=\"[a-z0-9]*\" data-offset=\"[0-9]*\">\\s*"+
-                "<div class=\"row\">\\s*"+
-                "<div class=\"span1 spanimg\" >\\s*"+
-                "<a href=\".*?\"><img src=\".*?\" alt=\".*?\"></a>\\s*<a class=\".*?\" href=\".*?\"></a>\\s*"+
-                "</div>\\s*"+
-                "<div class=\"span6\">\\s*"+
-                "<div class=\"h3\">\\s*"+
-                "<a href=\".*?\" data-id=\".*?\">.*?</a>.*?\\s*"+
-                "<br>.*?</div>\\s*"+
-                "<div class=\"muted hide_short\"><tt><i class=\"icon-time\"></i>.*?</tt>\\s*"+
-                "&ndash;.*?&ndash;.*?</div>\\s*"+
-                "<p class=\"hide_short\">\\s*"+
-                "<b>Режисери:</b>.*?<b>Актори:</b>.*?</p>\\s*"+
-                "<div>\\s*"+
-                "<a.*?</a>\\s*"+
-                "<a.*?</a>\\s*"+
-                "</div>\\s*"+
-                "</div>\\s*"+
-                "</div>\\s*").matcher(htmlCode);
+        Matcher m = Pattern.compile("(<div class=\"cblock\" id=\"[a-z0-9]*\" data-offset=\"[0-9]*\">\\s*" +
+                "<div class=\"row\">\\s*" +
+                "<div class=\"span1 spanimg\" >\\s*" +
+                "<a href=\"[\\s\\S]*?\"><img src=\"[\\s\\S]*?\" alt=\"[\\s\\S]*?\"></a>\\s*<a class=\"[\\s\\S]*?\" href=\"[\\s\\S]*?\"></a>\\s*" +
+                "</div>\\s*" +
+                "<div class=\"span6\">\\s*" +
+                "<div class=\"h3\">\\s*" +
+                "<a href=\"[\\s\\S]*?\" data-id=\"[\\s\\S]*?\">[\\s\\S]*?</a>[\\s\\S]*?\\s*" +
+                "<br>[\\s\\S]*?</div>\\s*" +
+                "<div class=\"muted hide_short\"><tt><i class=\"icon-time\"></i>[\\s\\S]*?</tt>\\s*" +
+                "&ndash;[\\s\\S]*?&ndash;[\\s\\S]*?</div>\\s*" +
+                "<p class=\"hide_short\">\\s*" +
+                "<b>Режисери:</b>[\\s\\S]*?<b>Актори:</b>[\\s\\S]*?</p>\\s*" +
+                "<div>\\s*" +
+                "<a[\\s\\S]*?</a>\\s*?" +
+                "<a[\\s\\S]*?</a>\\s*?" +
+                "</div>\\s*?" +
+                "</div>\\s*?" +
+                "</div>)\\s*?<div class=\"afisha").matcher(htmlCode);
 
-        for(int i=0;i<5;i++){
+        for (int i = 0; i < 5; i++) {
             m.find();
-            bloks.add(m.group());
+            bloks.add(m.group(1));
         }
         return bloks;
     }
+
     //Метод виділяє із блоків, знайдених раніше, інформацію про фільм
     private ArrayList<Film> parseFilms(ArrayList<String> bloks) {
         ArrayList<Film> films = new ArrayList<>();
@@ -114,19 +115,23 @@ public class Parser {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            matcher=Pattern.compile("<div itemprop=\"description\"><p>(.*?)</p><p></p></div>").matcher(filmHTML);
+            matcher = Pattern.compile("<div itemprop=\"description\"><p>(.*?)</p><p></p></div>").matcher(filmHTML);
             matcher.find();
             String Description = matcher.group(1);
 
             //замінюємо спеціальні символи в описі
-            Description = Description.replaceAll("&nbsp;"," ");
-            Description = Description.replaceAll("&hellip;","...");
-            Description = Description.replaceAll("&prime;","\'");
-            Description = Description.replaceAll("&ndash;","-");
-            Description = Description.replaceAll("&mdash;","-");
-            Description = Description.replaceAll("&ldquo;","\"");
-            Description = Description.replaceAll("&rdquo;","\"");
-            Description = Description.replaceAll("&#39;","\'");
+            Description = Description.replaceAll("&nbsp;", " ");
+            Description = Description.replaceAll("&hellip;", "...");
+            Description = Description.replaceAll("&prime;", "\'");
+            Description = Description.replaceAll("&ndash;", "-");
+            Description = Description.replaceAll("&mdash;", "-");
+            Description = Description.replaceAll("&laquo;", "\"");
+            Description = Description.replaceAll("&raquo;", "\"");
+            Description = Description.replaceAll("&lsquo;", "\'");
+            Description = Description.replaceAll("&rsquo;", "\'");
+            Description = Description.replaceAll("&#39;", "\'");
+            Description = Description.replaceAll("</p>", "\n");
+            Description = Description.replaceAll("<p>", "    ");
             films.get(i).setDescription(Description);
 
             // Режисери
@@ -135,7 +140,7 @@ public class Parser {
             String directorStr = matcher.group();
             matcher = Pattern.compile("<a href=\".*?\" rel=\"nofollow\">(.*?)</a>").matcher(directorStr);
             ArrayList<String> directors = new ArrayList<String>();
-            while (matcher.find()){
+            while (matcher.find()) {
                 directors.add(matcher.group(1));
             }
             films.get(i).setDirectors(directors);
@@ -146,13 +151,30 @@ public class Parser {
             String actorsStr = matcher.group();
             matcher = Pattern.compile("<a href=\".*?\" rel=\"nofollow\">(.*?)</a>").matcher(actorsStr);
             ArrayList<String> actors = new ArrayList<String>();
-            while (matcher.find()){
+            while (matcher.find()) {
                 actors.add(matcher.group(1));
             }
             films.get(i).setActors(actors);
+
+            //Прем’єра в світі
+            matcher = Pattern.compile("<img src=\"/images/primworld.jpg\">&nbsp;<a href='.*?'>(.*?)&nbsp;(.*?)&nbsp;(.*?)</a>").matcher(filmHTML);
+            if(matcher.find()) {
+                films.get(i).setPremierWorld(matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3));
+            }
+
+            //Прем’єра в Україні
+            matcher = Pattern.compile("<img src=\"/images/primukraine.jpg\">&nbsp;<a href='.*?'>(.*?)&nbsp;(.*?)&nbsp;(.*?)</a>").matcher(filmHTML);
+            if(matcher.find()) {
+                films.get(i).setPremierUkraine(matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3));
+            }
+            // Рейтинг
+            matcher = Pattern.compile("Рейтинг: <span id=\"rate_value\">(.*?)</span>").matcher(filmHTML);
+            matcher.find();
+            films.get(i).setRating(matcher.group(1));
         }
         return films;
     }
+
     class RequestTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... url) {
@@ -165,8 +187,7 @@ public class Parser {
                 while ((inputLine = buff.readLine()) != null) {
                     sb.append(inputLine);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
             return sb.toString();
         }
