@@ -64,10 +64,9 @@ public class MainActivity extends AppCompatActivity {
         TextView yearTextView = null;
         TextView directorsTextView = null;
         ImageView posterImageView = null;
-        enableButtons();
         TextView handleText = (TextView) findViewById(R.id.text_handle);
         handleText.setText("Сьогодні в кінотеатрах");
-        for(int i=0;i<5;i++){
+        for(int i=0;i<films.size();i++){
             switch (i){
                 case 0: nameTextView = (TextView) findViewById(R.id.first_film_text_view_name);
                     genreTextView = (TextView) findViewById(R.id.first_film_text_view_genre);
@@ -75,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                     yearTextView = (TextView) findViewById(R.id.first_film_text_view_year);
                     directorsTextView = (TextView) findViewById(R.id.first_film_text_view_directors);
                     posterImageView = (ImageView) findViewById(R.id.first_film_image_view_poster);
+                    Button btn1 = (Button) findViewById(R.id.first_film_button_description);
+                    if(films.get(i).getName()!=null)
+                        btn1.setVisibility(View.VISIBLE);
                     break;
                 case 1: nameTextView = (TextView) findViewById(R.id.second_film_text_view_name);
                     genreTextView = (TextView) findViewById(R.id.second_film_text_view_genre);
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
                     yearTextView = (TextView) findViewById(R.id.second_film_text_view_year);
                     directorsTextView = (TextView) findViewById(R.id.second_film_text_view_directors);
                     posterImageView = (ImageView) findViewById(R.id.second_film_image_view_poster);
+                    Button btn2 = (Button) findViewById(R.id.second_film_button_description);
+                    if(films.get(i).getName()!=null)
+                        btn2.setVisibility(View.VISIBLE);
                     break;
                 case 2: nameTextView = (TextView) findViewById(R.id.third_film_text_view_name);
                     genreTextView = (TextView) findViewById(R.id.third_film_text_view_genre);
@@ -89,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
                     yearTextView = (TextView) findViewById(R.id.third_film_text_view_year);
                     directorsTextView = (TextView) findViewById(R.id.third_film_text_view_directors);
                     posterImageView = (ImageView) findViewById(R.id.third_film_image_view_poster);
+                    Button btn3 = (Button) findViewById(R.id.third_film_button_description);
+                    if(films.get(i).getName()!=null)
+                        btn3.setVisibility(View.VISIBLE);
+
                     break;
                 case 3: nameTextView = (TextView) findViewById(R.id.fourth_film_text_view_name);
                     genreTextView = (TextView) findViewById(R.id.fourth_film_text_view_genre);
@@ -96,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                     yearTextView = (TextView) findViewById(R.id.fourth_film_text_view_year);
                     directorsTextView = (TextView) findViewById(R.id.fourth_film_text_view_directors);
                     posterImageView = (ImageView) findViewById(R.id.fourth_film_image_view_poster);
+                    Button btn4 = (Button) findViewById(R.id.fourth_film_button_description);
+                    if(films.get(i).getName()!=null)
+                        btn4.setVisibility(View.VISIBLE);
                     break;
                 case 4: nameTextView = (TextView) findViewById(R.id.fifth_film_text_view_name);
                     genreTextView = (TextView) findViewById(R.id.fifth_film_text_view_genre);
@@ -103,15 +115,20 @@ public class MainActivity extends AppCompatActivity {
                     yearTextView = (TextView) findViewById(R.id.fifth_film_text_view_year);
                     directorsTextView = (TextView) findViewById(R.id.fifth_film_text_view_directors);
                     posterImageView = (ImageView) findViewById(R.id.fifth_film_image_view_poster);
+                    Button btn5 = (Button) findViewById(R.id.fifth_film_button_description);
+                    if(films.get(i).getName()!=null)
+                        btn5.setVisibility(View.VISIBLE);
                     break;
             }
-            nameTextView.setText(films.get(i).getName());
-            genreTextView.setText("Жанр: " + films.get(i).getGenre());
-            countryTextView.setText("Країна: " + films.get(i).getCountry());
-            yearTextView.setText("Рік: " + films.get(i).getYear());
-            directorsTextView.setText("Режисери: " + films.get(i).getDirectors());
-            new DownloadImageTask(posterImageView)
-                    .execute(films.get(i).getLinkPicture());
+            if(films.get(i).getName()!=null) {                          // Фільмів на сайті може бути менше 5
+                nameTextView.setText(films.get(i).getName());
+                genreTextView.setText("Жанр: " + films.get(i).getGenre());
+                countryTextView.setText("Країна: " + films.get(i).getCountry());
+                yearTextView.setText("Рік: " + films.get(i).getYear());
+                directorsTextView.setText("Режисери: " + films.get(i).getDirectors());
+                new DownloadImageTask(posterImageView)
+                        .execute(films.get(i).getLinkPicture());
+            }
 
         }
     }
@@ -142,19 +159,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
-    }
-    private void enableButtons(){                                                           // Відображаємо кнопки, якщо не виникнуло помилок з отриманням даних
-        Button btn1 = (Button) findViewById(R.id.first_film_button_description);
-        btn1.setVisibility(View.VISIBLE);
-        Button btn2 = (Button) findViewById(R.id.second_film_button_description);
-        btn2.setVisibility(View.VISIBLE);
-        Button btn3 = (Button) findViewById(R.id.third_film_button_description);
-        btn3.setVisibility(View.VISIBLE);
-        Button btn4 = (Button) findViewById(R.id.fourth_film_button_description);
-        btn4.setVisibility(View.VISIBLE);
-        Button btn5 = (Button) findViewById(R.id.fifth_film_button_description);
-        btn5.setVisibility(View.VISIBLE);
-
     }
     private void setOnClickIvent(Button btn, final int index){
         btn.setOnClickListener(new View.OnClickListener() {

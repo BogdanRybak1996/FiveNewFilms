@@ -15,7 +15,8 @@ import java.util.regex.*;
 /**
  * Created by bohdan on 05.04.16.
  */
-public class Parser {
+public class
+Parser {
     private ArrayList<Film> films = new ArrayList<Film>();
     private String htmlCode;
 
@@ -41,28 +42,13 @@ public class Parser {
     private ArrayList<String> parseBlock(String htmlCode) {
         ArrayList<String> bloks = new ArrayList<String>();
         Matcher m = Pattern.compile("(<div class=\"cblock\" id=\"[a-z0-9]*\" data-offset=\"[0-9]*\">\\s*" +
-                "<div class=\"row\">\\s*" +
-                "<div class=\"span1 spanimg\" >\\s*" +
-                "<a href=\"[\\s\\S]*?\"><img src=\"[\\s\\S]*?\" alt=\"[\\s\\S]*?\"></a>\\s*<a class=\"[\\s\\S]*?\" href=\"[\\s\\S]*?\"></a>\\s*" +
-                "</div>\\s*" +
-                "<div class=\"span6\">\\s*" +
-                "<div class=\"h3\">\\s*" +
-                "<a href=\"[\\s\\S]*?\" data-id=\"[\\s\\S]*?\">[\\s\\S]*?</a>[\\s\\S]*?\\s*" +
-                "<br>[\\s\\S]*?</div>\\s*" +
-                "<div class=\"muted hide_short\"><tt><i class=\"icon-time\"></i>[\\s\\S]*?</tt>\\s*" +
-                "&ndash;[\\s\\S]*?&ndash;[\\s\\S]*?</div>\\s*" +
-                "<p class=\"hide_short\">\\s*" +
-                "<b>Режисери:</b>[\\s\\S]*?<b>Актори:</b>[\\s\\S]*?</p>\\s*" +
-                "<div>\\s*" +
-                "<a[\\s\\S]*?</a>\\s*?" +
-                "<a[\\s\\S]*?</a>\\s*?" +
-                "</div>\\s*?" +
-                "</div>\\s*?" +
-                "</div>)\\s*?<div class=\"afisha").matcher(htmlCode);
+                "[\\s\\S]*?)" +
+                "<div class=\"afisha").matcher(htmlCode);
 
         for (int i = 0; i < 5; i++) {
-            m.find();
-            bloks.add(m.group(1));
+            if(m.find()) {
+                bloks.add(m.group(1));
+            }
         }
         return bloks;
     }
@@ -85,11 +71,12 @@ public class Parser {
 
             //Країна виробництва
             matcher = Pattern.compile("&ndash; .*? &ndash; (.*?)</div>").matcher(bloks.get(i));
-            matcher.find();
-            films.get(i).setCountry(matcher.group(1));
+            if(matcher.find()) {
+                films.get(i).setCountry(matcher.group(1));
+            }
 
             //Посилання
-            matcher = Pattern.compile("<a href=\"(.*?)\"><img src=\".*?\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
+            matcher = Pattern.compile("<a href=\"(.*?)\"><img src=\".*?\" alt=\".*?\"></a>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setLink("http://www.kinofilms.ua" + matcher.group(1));
 
@@ -112,7 +99,7 @@ public class Parser {
 
 
             //Посилання на зображення
-            matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
+            matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setLinkPicture("http://www.kinofilms.ua" + matcher.group(1));
 
