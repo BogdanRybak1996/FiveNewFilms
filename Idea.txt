@@ -1,0 +1,7 @@
+All watch movies, it is very difficult to find someone who does not do :).
+My idea was the following:
+Create a program that would at any given time would tell which movie is relevant (which are shown in theaters), also would show some information about the film (description, actors, etc.).
+Since, according to the project must submit its program to 5 new things, just 5 movies.
+Information about the list of films (and specifically about the new film) updated over time, the data are taken from one of the Internet sites (a link to which is open at the bottom of the movie), so the program will be relevant always.
+Do not forget that for the program to your device must be connected to the Internet, if this condition is not met, you will see a sad message.
+The program is very easy, first - it on your phone, which is always handy. Second - the program loads quickly (you'll lose less time than if'll find information in your web browser). Third - you always have the latest information, and if you want to know more - you can go to the website kinofilms.ua (the page with the desired film) of a program (the program causes the browser by pressing the link).
