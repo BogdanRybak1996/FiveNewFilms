@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Handler handler = new Handler();
     ArrayList<Film> films = null;
 
 

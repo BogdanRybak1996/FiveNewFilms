@@ -83,11 +83,6 @@ public class Parser {
             matcher.find();
             films.get(i).setYear(matcher.group(1));
 
-            //Жанри фільму
-            matcher = Pattern.compile("&ndash; (.*?) &ndash;.*?</div>").matcher(bloks.get(i));
-            matcher.find();
-            films.get(i).setGenre(matcher.group(1));
-
             //Країна виробництва
             matcher = Pattern.compile("&ndash; .*? &ndash; (.*?)</div>").matcher(bloks.get(i));
             matcher.find();
@@ -98,16 +93,34 @@ public class Parser {
             matcher.find();
             films.get(i).setLink("http://www.kinofilms.ua" + matcher.group(1));
 
+            //Жанри фільму (переходимо за посиланням та беремо жанр звідти)
+            String filmLink = films.get(i).getLink();
+            RequestTask filmHTMRequest = new RequestTask();
+            filmHTMRequest.execute(filmLink);
+            String filmHTML = null;
+            try {
+                filmHTML = filmHTMRequest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            matcher = Pattern.compile("<meta name=\"description\" content=\".*?\\s*" +
+                    "Жанр: (.*?)\\s*Українська").matcher(filmHTML);
+            matcher.find();
+            films.get(i).setGenre(matcher.group(1));
+
+
             //Посилання на зображення
             matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>\\s*<a class=\"poster_play\" href=\".*?\"></a>").matcher(bloks.get(i));
             matcher.find();
             films.get(i).setLinkPicture("http://www.kinofilms.ua" + matcher.group(1));
 
             // Опис фільму (переходимо за посиланням та беремо опис звідти)
-            String filmLink = films.get(i).getLink();
-            RequestTask filmHTMRequest = new RequestTask();
+            filmLink = films.get(i).getLink();
+            filmHTMRequest = new RequestTask();
             filmHTMRequest.execute(filmLink);
-            String filmHTML = null;
+            filmHTML = null;
             try {
                 filmHTML = filmHTMRequest.get();
             } catch (InterruptedException e) {

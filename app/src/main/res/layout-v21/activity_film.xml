@@ -14,7 +14,8 @@ tools:context="com.bogdanrybak1996.fivenewfilms.FilmActivity">
     android:outlineProvider="paddedBounds"
     android:elevation="8dp"
     android:textSize="20sp"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+    />
 <ScrollView
     android:id="@+id/film_activity_scroll_view"
     android:layout_width="match_parent"
