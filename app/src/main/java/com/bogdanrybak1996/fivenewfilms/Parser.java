@@ -15,8 +15,7 @@ import java.util.regex.*;
 /**
  * Created by bohdan on 05.04.16.
  */
-public class
-Parser {
+public class Parser {
     private ArrayList<Film> films = new ArrayList<Film>();
     private String htmlCode;
 
@@ -67,7 +66,7 @@ Parser {
             //Рік прем’єри
             matcher = Pattern.compile("<a href=\".*?\" data-id=\".*?\">.*?</a> \\((.*?)\\)").matcher(bloks.get(i));
             matcher.find();
-            films.get(i).setYear(matcher.group(1));
+            films.get(i).setYear(Integer.parseInt(matcher.group(1)));
 
             //Країна виробництва
             matcher = Pattern.compile("&ndash; .*? &ndash; (.*?)</div>").matcher(bloks.get(i));

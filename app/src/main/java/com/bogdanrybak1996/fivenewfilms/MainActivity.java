@@ -1,22 +1,13 @@
 package com.bogdanrybak1996.fivenewfilms;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
-import java.io.InputStream;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,16 +32,48 @@ public class MainActivity extends AppCompatActivity {
 
         }
         //Додаємо обробники подій до кнопок
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.first_film_button_description:
+                        Intent intent = new Intent(getApplicationContext(),FilmActivity.class);
+                        intent.putExtra("film",films.get(0));
+                        startActivity(intent);
+                        break;
+                    case R.id.second_film_button_description:
+                        intent = new Intent(getApplicationContext(),FilmActivity.class);
+                        intent.putExtra("film",films.get(1));
+                        startActivity(intent);
+                        break;
+                    case R.id.third_film_button_description:
+                        intent = new Intent(getApplicationContext(),FilmActivity.class);
+                        intent.putExtra("film",films.get(2));
+                        startActivity(intent);
+                        break;
+                    case R.id.fourth_film_button_description:
+                        intent = new Intent(getApplicationContext(),FilmActivity.class);
+                        intent.putExtra("film",films.get(3));
+                        startActivity(intent);
+                        break;
+                    case R.id.fifth_film_button_description:
+                        intent = new Intent(getApplicationContext(),FilmActivity.class);
+                        intent.putExtra("film",films.get(4));
+                        startActivity(intent);
+                        break;
+                }
+            }
+        };
         Button buttonFirstFilmInfo = (Button) findViewById(R.id.first_film_button_description);
+        buttonFirstFilmInfo.setOnClickListener(onClickListener);
         Button buttonSecondFilmInfo = (Button) findViewById(R.id.second_film_button_description);
+        buttonSecondFilmInfo.setOnClickListener(onClickListener);
         Button buttonThirdFilmInfo = (Button) findViewById(R.id.third_film_button_description);
+        buttonThirdFilmInfo.setOnClickListener(onClickListener);
         Button buttonFourthFilmInfo = (Button) findViewById(R.id.fourth_film_button_description);
+        buttonFourthFilmInfo.setOnClickListener(onClickListener);
         Button buttonFifthFilmInfo = (Button) findViewById(R.id.fifth_film_button_description);
-        setOnClickIvent(buttonFirstFilmInfo,0);
-        setOnClickIvent(buttonSecondFilmInfo,1);
-        setOnClickIvent(buttonThirdFilmInfo,2);
-        setOnClickIvent(buttonFourthFilmInfo,3);
-        setOnClickIvent(buttonFifthFilmInfo,4);
+        buttonFifthFilmInfo.setOnClickListener(onClickListener);
     }
 
     /**
@@ -126,48 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 countryTextView.setText("Країна: " + films.get(i).getCountry());
                 yearTextView.setText("Рік: " + films.get(i).getYear());
                 directorsTextView.setText("Режисери: " + films.get(i).getDirectors());
-                new DownloadImageTask(posterImageView)
-                        .execute(films.get(i).getLinkPicture());
+                Picasso.with(this).load(films.get(i).getLinkPicture()).into(posterImageView);       // Завантажуємо картинку з інтернету за допомогою Picasso
             }
 
         }
-    }
-
-    /**
-     * Для завантаження картинки з інтернету
-     */
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-    private void setOnClickIvent(Button btn, final int index){
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),FilmActivity.class);
-                intent.putExtra("film",films.get(index));
-                startActivity(intent);
-            }
-        });
     }
 }
