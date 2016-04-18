@@ -13,13 +13,15 @@
         android:layout_marginBottom="4dp"
         android:gravity="center_horizontal"
         android:text=""
+        android:outlineProvider="paddedBounds"
+        android:elevation="8dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/colorSeparator" />
 
     <ScrollView
         android:id="@+id/film_activity_scroll_view"
