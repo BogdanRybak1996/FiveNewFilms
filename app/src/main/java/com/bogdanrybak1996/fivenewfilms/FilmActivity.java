@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.io.InputStream;
@@ -83,33 +85,7 @@ public class FilmActivity extends AppCompatActivity {
         });
         //Постер
         ImageView imageViewPoster = (ImageView) findViewById(R.id.film_activity_image_view_poster);
-        new DownloadImageTask(imageViewPoster)
-                .execute(film.getLinkPicture());
-    }
 
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
+        Picasso.with(this).load(film.getLinkPicture()).into(imageViewPoster);
     }
 }
