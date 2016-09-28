@@ -25,6 +25,11 @@ public class Film implements Parcelable {
     private String premierWorld;
     private String rating;
 
+
+
+    private String trailerURL;
+
+
     public String getName() {
         return name;
     }
@@ -133,6 +138,13 @@ public class Film implements Parcelable {
     public void setCountry(String country) {
         this.country = country;
     }
+    public String getTrailerURL() {
+        return trailerURL;
+    }
+
+    public void setTrailerURL(String trailerURL) {
+        this.trailerURL = trailerURL;
+    }
 
     public Film(){
 
@@ -151,6 +163,7 @@ public class Film implements Parcelable {
         premierUkraine = in.readString();
         premierWorld = in.readString();
         rating = in.readString();
+        trailerURL = in.readString();
     }
 
     public static final Creator<Film> CREATOR = new Creator<Film>() {
@@ -184,5 +197,6 @@ public class Film implements Parcelable {
         dest.writeString(premierUkraine);
         dest.writeString(premierWorld);
         dest.writeString(rating);
+        dest.writeString(trailerURL);
     }
 }

@@ -8,26 +8,61 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.io.InputStream;
+import java.net.URI;
 
 public class FilmActivity extends AppCompatActivity {
+
+    private static final String KEY_VIDEO_TIME = "VIDEO_TIME";
+    private static final String KEY_VIDEO_STATUS = "VIDEO_STATUS";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
         setInformation();
+        VideoView vv = (VideoView) findViewById(R.id.trailer_video);
+        if(savedInstanceState != null){
+            vv.seekTo(savedInstanceState.getInt(KEY_VIDEO_TIME));
+            boolean st = savedInstanceState.getBoolean(KEY_VIDEO_STATUS);
+            if(st){
+                vv.start();
+            }
+            else{
+                vv.pause();
+            }
+        }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        VideoView vv = (VideoView) findViewById(R.id.trailer_video);
+        outState.putInt(KEY_VIDEO_TIME,vv.getCurrentPosition());
+        if(vv.isPlaying()){
+            outState.putBoolean(KEY_VIDEO_STATUS,true);
+        }
+        else{
+            outState.putBoolean(KEY_VIDEO_STATUS,false);
+        }
+    }
+
     private void setInformation(){
         final Film film = getIntent().getParcelableExtra("film");
-
         //Назва фільму
         TextView textViewName = (TextView) findViewById(R.id.film_activity_text_view_name);
         textViewName.setText(film.getName());
@@ -75,17 +110,29 @@ public class FilmActivity extends AppCompatActivity {
 
         //Перехід за посиланням
         TextView linkTextView = (TextView) findViewById(R.id.film_activity_link);
-        linkTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent webIntent = new Intent(Intent.ACTION_VIEW);
-                webIntent.setData(Uri.parse(film.getLink()));
-                startActivity(webIntent);
-            }
-        });
         //Постер
         ImageView imageViewPoster = (ImageView) findViewById(R.id.film_activity_image_view_poster);
 
         Picasso.with(this).load(film.getLinkPicture()).into(imageViewPoster);
+
+        //Трейлер
+        Uri uri = Uri.parse(film.getTrailerURL());
+        VideoView trailerVideo = (VideoView) findViewById(R.id.trailer_video);
+        MediaController mc = new MediaController(this);
+        trailerVideo.setMediaController(mc);
+        trailerVideo.requestFocus(0);
+        trailerVideo.setVideoURI(uri);
+        trailerVideo.setZOrderOnTop(true);
+        Button btn = (Button) findViewById(R.id.video_intent);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(film.getTrailerURL()),"video/*");
+                startActivity(intent);
+            }
+        });
+
     }
 }
+

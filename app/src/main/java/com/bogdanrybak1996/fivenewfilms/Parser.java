@@ -1,8 +1,8 @@
 package com.bogdanrybak1996.fivenewfilms;
 
-import android.app.Application;
+
 import android.os.AsyncTask;
-import android.widget.Toast;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -96,6 +96,25 @@ public class Parser {
             matcher.find();
             films.get(i).setGenre(matcher.group(1));
 
+            //Трейлер
+            matcher = Pattern.compile("<div class=\"btn-group\">" +
+                    "\\s*<a href=\"(.*?)\" class=\"btn btn-warning\" itemprop=\"trailer\">").matcher(filmHTML);
+            matcher.find();
+            String trailerPageLink = "http://www.kinofilms.ua" + matcher.group(1);
+            RequestTask trailerHTMLRequest = new RequestTask();
+            trailerHTMLRequest.execute(trailerPageLink);
+            String trailerHTML = null;
+            try {
+                trailerHTML = trailerHTMLRequest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            matcher = Pattern.compile("sources: \\[\\s*" +
+                    "\\{file: \"(.*?)\",label: \".*?\"\\}").matcher(trailerHTML);
+            matcher.find();
+            films.get(i).setTrailerURL(matcher.group(1));
 
             //Посилання на зображення
             matcher = Pattern.compile("<a href=\".*?\"><img src=\"(.*?)\" alt=\".*?\"></a>").matcher(bloks.get(i));
